@@ -2,8 +2,11 @@ package com.example.javawebuiatspring.service;
 
 
 
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 
+@Service
 public class WordsCounter {
 
     public Map<String, Long> countWordsInLine(String inputText) {

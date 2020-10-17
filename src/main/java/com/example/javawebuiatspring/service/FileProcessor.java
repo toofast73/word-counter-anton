@@ -1,18 +1,27 @@
 package com.example.javawebuiatspring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 
+@Service
 public class FileProcessor {
 
-    public Map<String, Long> fileSplitToLines(String filename) throws IOException {
+    private final WordsCounter wordsCounter;
 
-        File file = new File(filename);
+    public FileProcessor(WordsCounter wordsCounter) {
+        this.wordsCounter = wordsCounter;
+    }
 
-        BufferedReader br = new BufferedReader(new FileReader(file));
+    public Map<String, Long> fileSplitToLines(Resource book) throws IOException {
+
+        BufferedReader br = new BufferedReader(new FileReader(book.getFile()));
         StringBuilder sb = new StringBuilder();
         String line = br.readLine();
 
@@ -22,8 +31,6 @@ public class FileProcessor {
         }
 
         String fileAsString = sb.toString();
-
-        WordsCounter wordsCounter = new WordsCounter();
 
         return wordsCounter.countWordsInLine(fileAsString);
     }
